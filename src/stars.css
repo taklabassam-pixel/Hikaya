@@ -1,0 +1,141 @@
+.moon {
+  position: absolute;
+  top: 10%; right: 10%;
+  width: 120px; height: 120px;
+  background: radial-gradient(circle at 30% 30%, #fff 0%, #e0e0ff 50%, #a0a0ff 100%);
+  border-radius: 50%;
+  box-shadow: 0 0 40px 20px rgba(255,255,255,.3);
+}
+.star {
+  position: absolute;
+  width: 2px; height: 2px;
+  background: #fff; border-radius: 50%;
+  box-shadow: 0 0 4px 1px rgba(255,255,255,.8);
+  animation: twinkle linear infinite;
+}
+@keyframes twinkle {
+  0%,100%{ opacity:.2; transform:scale(.8); }
+  50%{ opacity:1; transform:scale(1.2); }
+}
+.rainbow-text{
+  background:linear-gradient(90deg,#ff0080,#ff8c00,#40e0d0,#ff0080);
+  background-size:200% auto;
+  color:transparent;
+  background-clip:text;
+  -webkit-background-clip:text;
+  animation: rainbow 3s linear infinite;
+}
+@keyframes rainbow{
+  to{ background-position:200% center; }
+}
+.wave{
+  animation: wave 4s ease-in-out infinite;
+  display:inline-block;
+}
+@keyframes wave{
+  0%,100%{ transform: rotate(-3deg) scale(1); }
+  50%{ transform: rotate(3deg) scale(1.05); }
+}
+.owl-img{
+  width: 120px; height: 120px;
+  cursor: pointer;
+}
+.owl-img:hover{
+  animation: pulse-once .6s ease-in-out;
+}
+@keyframes pulse-once{
+  0%  { transform: scale(1); }
+  50%{ transform: scale(1.15); }
+  100%{ transform: scale(1); }
+}
+
+/* شريط تمرير مخصص بألوان التطبيق بدل الشكل الافتراضي للمتصفح */
+.app-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(251, 191, 36, 0.35) transparent;
+}
+.app-scroll::-webkit-scrollbar {
+  width: 6px;
+}
+.app-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+.app-scroll::-webkit-scrollbar-thumb {
+  background: rgba(251, 191, 36, 0.35);
+  border-radius: 999px;
+}
+.app-scroll::-webkit-scrollbar-thumb:hover {
+  background: rgba(251, 191, 36, 0.55);
+}
+
+/* 💤 شاشة النعس بعد انتهاء القصة */
+.sleepy-ending {
+  animation: sleepy-fade-in 1.6s ease-in-out forwards;
+}
+@keyframes sleepy-fade-in {
+  0%   { opacity: 0; }
+  100% { opacity: 1; }
+}
+.sleepy-moon {
+  animation: sleepy-pulse 4s ease-in-out infinite;
+}
+@keyframes sleepy-pulse {
+  0%, 100% { opacity: 0.7; transform: scale(1); }
+  50%      { opacity: 1;   transform: scale(1.08); }
+}
+
+/* 🌙 مشهد نوم القمر الكامل (~4.5 ثانية): تثاؤب، إغماض عيون، إطفاء الضوء، zzz */
+.sleepy-moon-body {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: moon-bob 4s ease-in-out infinite;
+}
+.sleepy-eye {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: sleepy-blink 4.6s ease-in-out forwards;
+}
+.sleepy-mouth {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: sleepy-yawn 4.6s ease-in-out forwards;
+}
+.sleepy-lamp {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: lamp-off 4.6s ease-in-out forwards;
+}
+.sleepy-zzz {
+  font-size: 16px;
+  font-weight: bold;
+  fill: #fde68a;
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: zzz-float 4.6s ease-in-out forwards;
+}
+.sleepy-zzz-2 { animation-delay: 0.15s; font-size: 13px; }
+.sleepy-zzz-3 { animation-delay: 0.3s; font-size: 10px; }
+
+@keyframes moon-bob {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-4px); }
+}
+@keyframes sleepy-blink {
+  0%, 35%   { transform: scaleY(1); }
+  55%, 100% { transform: scaleY(0.05); }
+}
+@keyframes sleepy-yawn {
+  0%, 15%   { transform: scaleY(0.4); }
+  35%, 50%  { transform: scaleY(1.8); }
+  70%, 100% { transform: scaleY(0.2); }
+}
+@keyframes lamp-off {
+  0%, 55%   { opacity: 1; filter: drop-shadow(0 0 6px rgba(253,224,71,0.85)); }
+  70%, 100% { opacity: 0.15; filter: none; }
+}
+@keyframes zzz-float {
+  0%, 60%  { opacity: 0; transform: translateY(8px) scale(0.6); }
+  80%      { opacity: 1; transform: translateY(-4px) scale(1); }
+  100%     { opacity: 1; transform: translateY(-10px) scale(1.05); }
+}
