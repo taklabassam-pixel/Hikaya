@@ -3,6 +3,7 @@ import { getStoryById } from "../../data/stories";
 import { StoryMeta, StoryChunk } from "../../types/types";
 import { CharacterVideoOverlay } from '../CharacterVideoOverlay';
 import BedtimeEndScreen from '../../screens/BedtimeEndScreen'; // (أو المسار الصحيح حسب مكان الملف لديك)
+import { assetUrl } from '../../utils/assetUrl';
 
 interface StoryPlayerProps {
   storyId: string;
@@ -36,7 +37,7 @@ const StoryPlayer: React.FC<StoryPlayerProps> = ({
   const [showSleepyEnding, setShowSleepyEnding] = useState<boolean>(false);
   const sleepAudioRef = useRef<HTMLAudioElement | null>(null);
 
-  // 🌟 حقن المقطع التمهيدي (id: 0) تلقائياً في بداية القصة إذا لم يكن موجوداً
+ // 🌟 حقن المقطع التمهيدي (id: 0) تلقائياً في بداية القصة إذا لم يكن موجوداً
   const initializedChunks = React.useMemo(() => {
     if (!story || !story.chunks) return [];
 
@@ -47,7 +48,8 @@ const StoryPlayer: React.FC<StoryPlayerProps> = ({
         id: 0,
         text: story.title || "بداية القصة",
         startTime: 0,
-        imageAsset: `${import.meta.env.BASE_URL}audio/stories/${story.title?.replace(/\s+/g, '_') || 'story'}/cover.png`,
+        // 👈 استخدام الدالة الموحدة هنا
+        imageAsset: assetUrl(`audio/stories/${story.title?.replace(/\s+/g, '_') || 'story'}/cover.png`),
       };
       return [introChunk, ...story.chunks];
     }
@@ -295,8 +297,7 @@ const StoryPlayer: React.FC<StoryPlayerProps> = ({
   if (showSleepyEnding) {
     return <BedtimeEndScreen />;
   }
-
-  return (
+return (
     <div className="flex flex-col items-center justify-between min-h-screen bg-slate-900 text-white p-6 max-w-md mx-auto relative rounded-2xl shadow-2xl overflow-hidden">
       
       <div className="w-full flex justify-between items-center z-10">
@@ -313,9 +314,20 @@ const StoryPlayer: React.FC<StoryPlayerProps> = ({
       <div className="my-6 z-10 text-center w-full">
         <div className="relative w-72 h-72 mx-auto rounded-2xl overflow-hidden shadow-xl border-4 border-amber-300/30 bg-black flex items-center justify-center">
           {visual.type === 'image' ? (
-            <img key={visual.src} src={visual.src} alt="مشهد القصة" className="w-full h-full object-cover transition-opacity duration-500 ease-in-out" />
+            // 👈 استخدام assetUrl لصورة المشهد القادمة من الـ JSON (مثل scene.imageAsset أو visual.src)
+            <img 
+              key={visual.src} 
+              src={assetUrl(visual.src)} 
+              alt="مشهد القصة" 
+              className="w-full h-full object-cover transition-opacity duration-500 ease-in-out" 
+            />
           ) : (
-            <CharacterVideoOverlay videoSrc={`${import.meta.env.BASE_URL}videos/koko_welcome.mp4`} idleImageSrc={`${import.meta.env.BASE_URL}${story.coverImage?.replace(/^\//, '')}`} isSpeaking={isPlaying} />
+            // 👈 استخدام assetUrl لفيديو الترحيب وصورة الغلاف الاحتياطية
+            <CharacterVideoOverlay 
+              videoSrc={assetUrl('videos/koko_welcome.mp4')} 
+              idleImageSrc={assetUrl(story.coverImage || '')} 
+              isSpeaking={isPlaying} 
+            />
           )}
         </div>
 

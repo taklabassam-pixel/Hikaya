@@ -1,4 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
+// تأكد من ضبط مسار الاستيراد بحسب مكان الملف الحالي لديك
+import { assetUrl } from '../utils/assetUrl';
 
 export default function BedtimeEndScreen() {
   const [showVideo, setShowVideo] = useState<boolean>(true);
@@ -11,8 +13,8 @@ export default function BedtimeEndScreen() {
   const maxRepeats = 3;
 
   useEffect(() => {
-    // 1. تشغيل ملف الصوت الهادئ (التهويدة)
-    const audioPath = `${import.meta.env.BASE_URL}audio/static/yalla_tnam_1.mp3`.replace(/\/+/g, '/').replace(':/', '://');
+    // 1. تشغيل ملف الصوت الهادئ (التهويدة) باستخدام assetUrl
+    const audioPath = assetUrl('audio/sleep/yalla_tnam_1.mp3');
     const audio = new Audio(audioPath);
     audio.volume = 0.4;
     audioRef.current = audio;
@@ -70,7 +72,7 @@ export default function BedtimeEndScreen() {
       {showVideo ? (
         <video 
           ref={videoRef}
-          src={`${import.meta.env.BASE_URL}videos/sleeping_moon.mp4`} 
+          src={assetUrl('videos/sleeping_moon.mp4')} // 👈 استخدام الدالة الموحدة لفيديو النهاية
           autoPlay 
           muted 
           playsInline
@@ -91,7 +93,7 @@ export default function BedtimeEndScreen() {
           alignItems: 'center'
         }}>
           <img 
-            src={`${import.meta.env.BASE_URL}images/sleeping_moon.png`} 
+            src={assetUrl('images/sleeping_moon.png')} // 👈 استخدام الدالة الموحدة لصورة البومة الساكنة
             alt="البومة النائمة" 
             style={{
               width: '110px',
