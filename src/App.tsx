@@ -1,4 +1,5 @@
 import React, { useRef, useMemo, useEffect, useState, useCallback } from 'react';
+import { assetUrl } from './utils/assetUrl';
 import { KNOWN_NAME_PATTERNS } from './data/namesDatabase';
 import StoryIntroPlayer from './components/player/StoryIntroPlayer';
 import StoryPlayer from './components/player/StoryPlayer';
@@ -135,7 +136,7 @@ export default function App() {
     const playAudioSequence = async () => {
       if (dialogueState === 'ASK_LETTER' && childGender) {
         const fileName = childGender === 'girl' ? 'Shou_ya_shatra.mp3' : 'Shou_ya_shater.mp3';
-        activeAudio = new Audio(`/audio/static/${fileName}`);
+        activeAudio = new Audio(assetUrl(`/audio/static/${fileName}`));
 
         setIsAudioPlaying(true);
         activeAudio.play().catch((err) => console.error('خطأ في تشغيل الصوت:', err));
@@ -145,7 +146,7 @@ export default function App() {
 
       } else if (dialogueState === 'ASK_NAME' && childGender) {
         const fileName = childGender === 'girl' ? 'Yalla_esmek.mp3' : 'Yalla_esmak.mp3';
-        activeAudio = new Audio(`/audio/static/${fileName}`);
+        activeAudio = new Audio(assetUrl(`/audio/static/${fileName}`));
 
         setIsAudioPlaying(true);
         activeAudio.play().catch((err) => console.error('خطأ في تشغيل الصوت:', err));
@@ -156,8 +157,8 @@ export default function App() {
       } else if (dialogueState === 'WELCOME' && childName) {
         // تسلسل الترحيب: تشغيل صوت اسم الطفل أولاً، ثم صوت Which_story
         const fileName = `اهلاَ_يا_${childName}.wav`;
-        const nameAudioPath = `/audio/ahlan_names/${fileName}`;
-        const storyAudioPath = `/audio/static/which_story.mp3`;
+        const nameAudioPath = assetUrl(`/audio/ahlan_names/${fileName}`);
+        const storyAudioPath = assetUrl(`/audio/static/which_story.mp3`);
 
         setIsAudioPlaying(true);
         const nameAudio = new Audio(nameAudioPath);
@@ -189,8 +190,8 @@ export default function App() {
 
       } else if (dialogueState === 'CONFIRMED' && selectedStory) {
         // التسلسل عند التأكيد: صوت التأكيد -> عنوان القصة -> الانتقال للمشغل مباشرة
-        const confirmAudioPath = '/audio/static/confirm_story.mp3';
-        const titleAudioPath = `/audio/stories/${selectedStory.id}/title.wav`;
+        const confirmAudioPath = assetUrl('/audio/static/confirm_story.mp3');
+        const titleAudioPath = assetUrl(`/audio/stories/${selectedStory.id}/title.wav`);
 
         setIsAudioPlaying(true);
         
@@ -253,7 +254,7 @@ export default function App() {
     setIsAudioPlaying(true);
 
     if (audioRef.current) {
-      audioRef.current.src = "/audio/static/ahlan_wasahlan.mp3";
+      audioRef.current.src = assetUrl("/audio/static/ahlan_wasahlan.mp3");
       audioRef.current.currentTime = 0;
 
       audioRef.current.play().catch((error) => {
@@ -358,8 +359,8 @@ return (
             {/* البومة التفاعلية */}
             <div className="w-44 h-44 md:w-56 md:h-56 relative flex items-center justify-center">
               <OwlAvatar
-                imageSrc="/images/owl.png" 
-                videoSrc="/videos/koko_welcome.mp4"
+                imageSrc={assetUrl("/images/owl.png")} 
+                videoSrc={assetUrl("/videos/koko_welcome.mp4")}
                 isPlaying={isAudioPlaying}
                 isListening={isListening}
                 onOwlClick={playOwlWelcomeAndListen}
@@ -381,7 +382,7 @@ return (
                   >
                     <div className="w-24 h-24 md:w-28 md:h-28 rounded-2xl overflow-hidden bg-blue-950/50 border border-blue-400/30 flex items-center justify-center p-1">
                       <img
-                        src="/images/he.png"
+                        src={assetUrl("/images/he.png")}
                         alt="ولد"
                         className="w-full h-full object-contain group-hover:scale-110 transition duration-300"
                       />
@@ -395,7 +396,7 @@ return (
                   >
                     <div className="w-24 h-24 md:w-28 md:h-28 rounded-2xl overflow-hidden bg-pink-950/50 border border-pink-400/30 flex items-center justify-center p-1">
                       <img
-                        src="/images/she.png"
+                        src={assetUrl("/images/she.png")}
                         alt="بنت"
                         className="w-full h-full object-contain group-hover:scale-110 transition duration-300"
                       />
