@@ -7,6 +7,7 @@ import { Screen, DialogueState, StoryMeta } from './types/types';
 import { STORIES_LIST } from './data/stories';
 import { OwlAvatar } from './components/OwlAvatar';
 
+
 // استيراد المكونات وغلاف الانتقال السلس والشاشات الرئيسية
 import ScreenWrapper from './components/ScreenWrapper';
 import HomeScreen from './screens/HomeScreen';

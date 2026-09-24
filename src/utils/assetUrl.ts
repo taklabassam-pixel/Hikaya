@@ -7,8 +7,15 @@
  *   assetUrl('/audio/static/bg_music.mp3')
  *   assetUrl(`/audio/stories/${storyId}/cover.png`)
  */
-export const assetUrl = (path: string): string => {
-  const base = import.meta.env.BASE_URL; // دايماً بينتهي بـ "/"
-  const cleanPath = path.replace(/^\/+/, ''); // نشيل أي "/" بالبداية حتى ما يتكرر
-  return `${base}${cleanPath}`;
-};
+export function assetUrl(path: string): string {
+  if (!path) return '';
+  
+  // إزالة أي شرطة مائلة في البداية لتجنب تكرارها
+  const cleanPath = path.replace(/^\/+/, '');
+  const finalUrl = `${import.meta.env.BASE_URL}${cleanPath}`;
+  
+  // 🔍 فحص عملي مباشر لمعرفة المسار الناتج في الـ Console
+  console.log("🛠️ [AssetUrl Check] Input:", path, "===> Output:", finalUrl);
+  
+  return finalUrl;
+}
