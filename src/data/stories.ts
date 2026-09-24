@@ -1,4 +1,5 @@
 import { StoryMeta, StoryChunk } from '../types/types';
+import { assetUrl } from '../utils/assetUrl'; // 👈 استيراد دالة assetUrl المركزية
 
 // توسيع واجهة القصة لتشمل الـ chunks والـ duration
 export interface FullStory extends StoryMeta {
@@ -51,7 +52,7 @@ Object.entries(metaModules).forEach(([filePath, meta]) => {
     const introChunk: StoryChunk = {
       id: 0,
       text: meta.title || "بداية القصة",
-      imageAsset: `/audio/stories/${storyFolderId}/scene_0.png`,
+      imageAsset: assetUrl(`audio/stories/${storyFolderId}/scene_0.png`), // 👈 تمرير مسار صورة البداية عبر الدالة
     };
     storyChunks = [introChunk, ...storyChunks];
   }
@@ -63,7 +64,6 @@ Object.entries(metaModules).forEach(([filePath, meta]) => {
   let accumulatedTime = 0;
   storyChunks = storyChunks.map((chunk, index) => {
     const charCount = chunk.text?.length || 1;
-    // حساب حصة هذا المقطع زمنياً بناءً على نسبة عدد أحرفه
     const chunkDuration = totalChars > 0 ? (charCount / totalChars) * totalDuration : 0;
     
     const startTime = accumulatedTime;
@@ -71,8 +71,10 @@ Object.entries(metaModules).forEach(([filePath, meta]) => {
 
     return {
       ...chunk,
-      id: index, // ضمان تسلسل المعرفات من 0 تصاعدياً
-      startTime: Number(startTime.toFixed(2)), // تعيين توقيت البدء النسبي بدقة
+      id: index,
+      startTime: Number(startTime.toFixed(2)),
+      // 👈 إذا كانت المشاهد الداخلية تحتوي على مسارات صور، نضمن تمريرها عبر الدالة أيضاً
+      imageAsset: chunk.imageAsset ? assetUrl(chunk.imageAsset) : undefined,
     };
   });
 
@@ -81,12 +83,13 @@ Object.entries(metaModules).forEach(([filePath, meta]) => {
     title: meta.title || storyFolderId,
     description: meta.description || '',
     fileName: storyFolderId,
-    audioUrl: `/audio/stories/${storyFolderId}/full_story.mp3`,
-    fullStoryAudio: `/audio/stories/${storyFolderId}/full_story.mp3`,
-    bgMusicUrl: '/audio/static/bg_music.mp3',
-    coverImage: `/audio/stories/${storyFolderId}/cover.png`,
+    // 👈 تمرير كافة الروابط عبر دالة assetUrl لإضافة مسار /Hikaya/ تلقائياً
+    audioUrl: assetUrl(`audio/stories/${storyFolderId}/full_story.mp3`),
+    fullStoryAudio: assetUrl(`audio/stories/${storyFolderId}/full_story.mp3`),
+    bgMusicUrl: assetUrl('audio/static/bg_music.mp3'),
+    coverImage: assetUrl(`audio/stories/${storyFolderId}/cover.png`),
     duration: totalDuration,
-    chunks: storyChunks, // ✨ إدراج المقاطع مسبوقة بالمقطع 0 وموزعة الأوقات نسبياً
+    chunks: storyChunks,
   };
 });
 

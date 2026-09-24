@@ -465,9 +465,7 @@ return (
                     >
                       <div className="w-full h-32 rounded-xl overflow-hidden bg-gradient-to-br from-purple-900/70 via-slate-900 to-slate-950 border border-amber-400/30 flex items-center justify-center">
                         {story.coverImage ? (
-                          <img
-                            src={story.coverImage}
-                            alt={story.title}
+                          <img src={assetUrl(story.coverImage)} alt={story.title} 
                             className="w-full h-full object-cover group-hover:scale-110 transition duration-300"
                           />
                         ) : (
@@ -510,9 +508,7 @@ return (
                 <div key={story.id} className="bg-purple-950/60 p-3 rounded-2xl border border-purple-500/30 flex items-center gap-4 text-right">
                   <div className="w-16 h-16 rounded-xl overflow-hidden bg-purple-900 border border-amber-400/40 flex-shrink-0">
                     {story.coverImage ? (
-                      <img 
-                        src={story.coverImage} 
-                        alt={story.title}
+                      <img src={assetUrl(story.coverImage)} alt={story.title}
                         className="w-full h-full object-cover"
                       />
                     ) : (
