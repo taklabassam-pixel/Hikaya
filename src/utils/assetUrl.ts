@@ -9,13 +9,26 @@
  */
 export function assetUrl(path: string): string {
   if (!path) return '';
-  
-  // إزالة أي شرطة مائلة في البداية لتجنب تكرارها
-  const cleanPath = path.replace(/^\/+/, '');
-  const finalUrl = `${import.meta.env.BASE_URL}${cleanPath}`;
-  
-  // 🔍 فحص عملي مباشر لمعرفة المسار الناتج في الـ Console
+
+  const base = import.meta.env.BASE_URL || '/';
+
+  let cleanPath = path;
+
+  // 1. إذا كان المسار يحتوي مسبقاً على الـ base (مثل /Hikaya/)، نقوم بإزالته لتجنب التكرار
+  if (cleanPath.startsWith(base)) {
+    cleanPath = cleanPath.slice(base.length);
+  }
+
+  // 2. تنظيف أي شرطة مائلة في بداية المسار المتبقي
+  cleanPath = cleanPath.replace(/^\/+/, '');
+
+  // 3. التأكد من أن الـ base ينتهي بشرطة مائلة واحدة صحيحة
+  const normalizedBase = base.endsWith('/') ? base : `${base}/`;
+
+  const finalUrl = `${normalizedBase}${cleanPath}`;
+
+  // للتتبع العملي في الكونسول
   console.log("🛠️ [AssetUrl Check] Input:", path, "===> Output:", finalUrl);
-  
+
   return finalUrl;
 }
