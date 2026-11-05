@@ -5,6 +5,6 @@ export default defineConfig(({ command }) => {
   return {
     plugins: [react()],
     // إذا كنا في وضع الـ Build نستخدم '/Hikaya/'، وإذا كنا في وضع التشغيل المحلي نستخدم '/'
-    base: command === 'serve' ? '/' : '/hikaya/',
+    base: command === 'serve' ? '/' : '/Hikaya/',
   }
 })
